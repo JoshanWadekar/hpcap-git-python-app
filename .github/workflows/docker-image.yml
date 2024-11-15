@@ -22,6 +22,6 @@ jobs:
           PASS: ${{ secrets.PASS }}
         run: |
           docker build . --file Dockerfile --tag joshanwadekar/github:latest
-          docker login -u $USER -p $PASS
+          echo $PASS | docker login -u $USER --password-stdin
           docker push joshanwadekar/github:latest
           
