@@ -11,17 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code from the repository
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Build the Docker image and push it to Docker Hub
-      - name: Build and push Docker image
-        env:
-          USER: ${{ secrets.USER }}
-          PASS: ${{ secrets.PASS }}
-        run: |
-          docker build . --file Dockerfile --tag joshanwadekar/github:latest
-          echo $PASS | docker login -u $USER --password-stdin
-          docker push joshanwadekar/github:latest
+        - uses: actions/checkout@v4
+        - name: Build and push Docker image
+        
+          env:
+        
+            USER: ${{ secrets.USER }}
+            PASS: ${{ secrets.PASS }}
+          run: |
+            docker build . --file Dockerfile --tag joshanwadekar/github:latest
+            docker login -u $USER -p $PASS
+            docker push joshanwadekar/github:latest
           
