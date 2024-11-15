@@ -21,27 +21,9 @@ jobs:
           USER: ${{ secrets.USER }}
           PASS: ${{ secrets.PASS }}
         run: |
-          # Debugging: Show the current directory and list files
-          echo "Current directory:"
-          pwd
-          echo "Listing files in current directory:"
-          ls -la
-
-          # Ensure the Dockerfile exists in the root directory
-          echo "Checking Dockerfile existence:"
-          if [ -f Dockerfile ]; then echo "Dockerfile found"; else echo "Dockerfile not found"; fi
-
-          # Build the Docker image
-          echo "Building Docker image..."
-          docker build --file Dockerfile --tag JoshanWadekar/github:latest .
-
-          # Debugging: Show Docker images
-          docker images
-
-          # Log in to Docker Hub
-          echo "Logging in to Docker Hub..."
+          echo $USER
+          echo $PASS 
+          docker build . --file Dockerfile --tag joshanwadekar/github:latest
           docker login -u $USER -p $PASS
-
-          # Push the Docker image
-          echo "Pushing Docker image..."
-          docker push JoshanWadekar/github:latest
+          docker push joshanwadekar/github:latest
+          
