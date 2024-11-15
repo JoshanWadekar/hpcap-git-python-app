@@ -12,14 +12,36 @@ jobs:
 
     steps:
       # Checkout the code from the repository
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       # Build the Docker image and push it to Docker Hub
-      - name: Build the Docker image
+      - name: Build and push Docker image
         env:
           USER: ${{ secrets.USER }}
           PASS: ${{ secrets.PASS }}
         run: |
+          # Debugging: Show the current directory and list files
+          echo "Current directory:"
+          pwd
+          echo "Listing files in current directory:"
+          ls -la
+
+          # Ensure the Dockerfile exists in the root directory
+          echo "Checking Dockerfile existence:"
+          if [ -f Dockerfile ]; then echo "Dockerfile found"; else echo "Dockerfile not found"; fi
+
+          # Build the Docker image
+          echo "Building Docker image..."
           docker build --file Dockerfile --tag JoshanWadekar/github:latest .
+
+          # Debugging: Show Docker images
+          docker images
+
+          # Log in to Docker Hub
+          echo "Logging in to Docker Hub..."
           docker login -u $USER -p $PASS
+
+          # Push the Docker image
+          echo "Pushing Docker image..."
           docker push JoshanWadekar/github:latest
